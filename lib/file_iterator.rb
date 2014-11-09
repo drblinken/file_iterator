@@ -5,7 +5,7 @@ module FileIterator
 		def initialize(input = nil, output = ARGV[1], command_line = nil)
 			@command_line = command_line
 			@outputfile = output
-			 
+
 			if input
 				@inputfile = input
 			else
@@ -36,32 +36,18 @@ module FileIterator
 				end
 			end
 		end
+		
 		def to_a
-			File.open(@inputfile,'r') do | file|
-				result = []
-				begin
-					if (@outputfile)
-						out = File.open(@outputfile,'w')
-					else
-						out = $stdout
-					end
-					file.each_line do | line |
-						unless line[0] == '#'
-							if block_given?
-								result << yield(line)
-							else
-								result << line
-							end
-						end
-					end
-				rescue
-					raise
-				ensure
-					out.close if @outputfile
+			result = []
+			iterate do | line |
+				if block_given?
+					result << yield(line)
+				else
+					result << line
 				end
-				result
 			end
+			result
 		end
-	end
 
+	end
 end
