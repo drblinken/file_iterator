@@ -2,8 +2,8 @@ require "file_iterator/version"
 
 module FileIterator
 	class FileIterator
-		def initialize(input = nil, output = ARGV[1], command_line = nil)
-			@command_line = command_line
+		def initialize(input: nil, output: ARGV[1], comment_symbol: nil)
+			@comment_symbol = comment_symbol
 			@outputfile = output
 
 			if input
@@ -18,6 +18,10 @@ module FileIterator
 			iterate(&Proc.new) if block_given?
 		end
 
+		def is_comment_line(line)
+			(@comment_symbol != nil) && line[0] == @comment_symbol
+		end
+
 		def iterate
 			File.open(@inputfile,'r') do | file|
 				begin
@@ -27,7 +31,7 @@ module FileIterator
 						out = $stdout
 					end
 					file.each_line do | line |
-						yield(line, out) unless line[0] == '#'
+						yield(line, out) unless is_comment_line(line)
 					end
 				rescue
 					raise
