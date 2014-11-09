@@ -5,6 +5,7 @@ module FileIterator
 		def initialize(input = nil, output = ARGV[1], command_line = nil)
 			@command_line = command_line
 			@outputfile = output
+			 
 			if input
 				@inputfile = input
 			else

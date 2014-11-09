@@ -14,8 +14,16 @@ describe FileIterator::FileIterator do
 	end
 
 	describe "error handling" do
-		it "throws an exception" do
+		it "throws an exception if file is missing" do
 			expect{FileIterator::FileIterator.new('not there').to_a}.to raise_error
+		end
+		it "throws an exception if used with block" do
+			expect do
+				a = []
+				FileIterator::FileIterator.new('not there') do | line |
+					a << line
+				end
+			end.to raise_error
 		end
 	end
 end
