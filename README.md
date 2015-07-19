@@ -29,3 +29,10 @@ see examples.rb for examples of usage.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## Publishing the gem
+
+(first update the version number)
+
+    gem build file_iterator.gemspec
+    gem push file_iterator-0.0.2.gem
